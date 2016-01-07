@@ -35,7 +35,7 @@ class ViewController: UIViewController, MKMapViewDelegate {
         }
         
         
-        var polyline = MKPolyline(coordinates: &points, count: points.count)
+        let polyline = MKPolyline(coordinates: &points, count: points.count)
         
         mapView.addOverlay(polyline)
 
@@ -83,15 +83,15 @@ class ViewController: UIViewController, MKMapViewDelegate {
     
     //MARK:- MapViewDelegate methods
     
-    func mapView(mapView: MKMapView!, rendererForOverlay overlay: MKOverlay!) -> MKOverlayRenderer! {
+    func mapView(mapView: MKMapView, rendererForOverlay overlay: MKOverlay) -> MKOverlayRenderer {
+        let polylineRenderer = MKPolylineRenderer(overlay: overlay)
+        
         if overlay is MKPolyline {
-            var polylineRenderer = MKPolylineRenderer(overlay: overlay)
             polylineRenderer.strokeColor = UIColor.blueColor()
             polylineRenderer.lineWidth = 5
-            return polylineRenderer
+
         }
-        
-        return nil
+        return polylineRenderer
     }
 }
 
