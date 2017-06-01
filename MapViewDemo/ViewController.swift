@@ -37,7 +37,7 @@ class ViewController: UIViewController, MKMapViewDelegate {
         
         let polyline = MKPolyline(coordinates: &points, count: points.count)
         
-        mapView.addOverlay(polyline)
+        mapView.add(polyline)
 
     }
 
@@ -65,15 +65,15 @@ class ViewController: UIViewController, MKMapViewDelegate {
         //load plist file
         
         var stations: NSArray?
-        if let path = NSBundle.mainBundle().pathForResource("stations", ofType: "plist") {
+        if let path = Bundle.main.path(forResource: "stations", ofType: "plist") {
             stations = NSArray(contentsOfFile: path)
         }
         if let items = stations {
             for item in items {
-                let lat = item.valueForKey("lat") as! Double
-                let long = item.valueForKey("long")as! Double
+                let lat = (item as AnyObject).value(forKey: "lat") as! Double
+                let long = (item as AnyObject).value(forKey: "long")as! Double
                 let annotation = Station(latitude: lat, longitude: long)
-                annotation.title = item.valueForKey("title") as? String
+                annotation.title = (item as AnyObject).value(forKey: "title") as? String
                 annotations.append(annotation)
             }
         }
@@ -83,11 +83,11 @@ class ViewController: UIViewController, MKMapViewDelegate {
     
     //MARK:- MapViewDelegate methods
     
-    func mapView(mapView: MKMapView, rendererForOverlay overlay: MKOverlay) -> MKOverlayRenderer {
+    func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
         let polylineRenderer = MKPolylineRenderer(overlay: overlay)
         
         if overlay is MKPolyline {
-            polylineRenderer.strokeColor = UIColor.blueColor()
+            polylineRenderer.strokeColor = UIColor.blue
             polylineRenderer.lineWidth = 5
 
         }
